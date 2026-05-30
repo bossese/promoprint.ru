@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PromoPrint — Промо-услуги и печать под ключ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0f;
+    --bg-2:#11111a;
+    --surface:#16161f;
+    --surface-2:#1d1d2b;
+    --border:rgba(255,255,255,.08);
+    --text:#f5f5f7;
+    --muted:#9a9aab;
+    --accent:#ff5b1f;
+    --accent-2:#ffb800;
+    --grad:linear-gradient(135deg,#ff5b1f 0%,#ffb800 100%);
+    --grad-soft:linear-gradient(135deg,rgba(255,91,31,.15),rgba(255,184,0,.15));
+    --radius:20px;
+    --radius-sm:12px;
+    --shadow:0 30px 80px -20px rgba(255,91,31,.25);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Manrope',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.55;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  .container{max-width:1240px;margin:0 auto;padding:0 24px}
+
+  /* HEADER */
+  .header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    backdrop-filter:blur(20px);
+    background:rgba(10,10,15,.7);
+    border-bottom:1px solid var(--border);
+    transition:all .3s;
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;max-width:1240px;margin:0 auto}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.5px}
+  .logo-mark{
+    width:38px;height:38px;border-radius:11px;
+    background:var(--grad);
+    display:grid;place-items:center;
+    font-weight:900;color:#0a0a0f;font-size:18px;
+    box-shadow:0 8px 24px rgba(255,91,31,.4);
+  }
+  .nav-links{display:flex;gap:32px;font-weight:500;font-size:15px;color:var(--muted)}
+  .nav-links a{transition:color .2s}
+  .nav-links a:hover{color:var(--text)}
+  .nav-cta{
+    background:var(--grad);color:#0a0a0f;font-weight:700;
+    padding:11px 22px;border-radius:10px;font-size:14px;
+    transition:transform .2s,box-shadow .2s;
+  }
+  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,91,31,.4)}
+  .burger{display:none;width:40px;height:40px;border:1px solid var(--border);border-radius:10px;background:none;color:var(--text);cursor:pointer;align-items:center;justify-content:center}
+
+  /* HERO */
+  .hero{
+    position:relative;padding:160px 0 100px;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;z-index:0;
+    background:
+      radial-gradient(600px circle at 15% 20%,rgba(255,91,31,.18),transparent 50%),
+      radial-gradient(800px circle at 85% 80%,rgba(255,184,0,.12),transparent 50%);
+  }
+  .hero::after{
+    content:'';position:absolute;inset:0;z-index:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+    background-size:60px 60px;
+    mask-image:radial-gradient(ellipse at center,#000 30%,transparent 70%);
+  }
+  .hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 14px;border-radius:100px;
+    background:rgba(255,91,31,.1);
+    border:1px solid rgba(255,91,31,.25);
+    color:#ffb285;font-size:13px;font-weight:600;
+    margin-bottom:24px;
+  }
+  .badge-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .hero h1{
+    font-size:clamp(38px,5.5vw,68px);
+    font-weight:800;line-height:1.05;letter-spacing:-1.5px;
+    margin-bottom:24px;
+  }
+  .hero h1 .grad{
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p.lead{
+    font-size:19px;color:var(--muted);max-width:540px;margin-bottom:36px;
+  }
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:48px}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:16px 28px;border-radius:12px;
+    font-weight:700;font-size:15px;
+    transition:all .25s;cursor:pointer;border:none;
+    font-family:inherit;
+  }
+  .btn-primary{
+    background:var(--grad);color:#0a0a0f;
+    box-shadow:0 12px 30px rgba(255,91,31,.35);
+  }
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(255,91,31,.5)}
+  .btn-ghost{
+    background:rgba(255,255,255,.05);color:var(--text);
+    border:1px solid var(--border);
+  }
+  .btn-ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)}
+
+  .hero-stats{display:flex;gap:40px;flex-wrap:wrap}
+  .stat-num{font-size:32px;font-weight:800;letter-spacing:-1px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat-label{font-size:13px;color:var(--muted);margin-top:2px}
+
+  /* Hero visual */
+  .hero-visual{
+    position:relative;height:520px;
+    perspective:1200px;
+  }
+  .card-float{
+    position:absolute;border-radius:var(--radius);
+    background:var(--surface);border:1px solid var(--border);
+    padding:24px;backdrop-filter:blur(10px);
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.5);
+    animation:float 6s ease-in-out infinite;
+  }
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .card-1{
+    top:20px;left:20px;width:240px;
+    background:linear-gradient(160deg,#ff5b1f,#ffb800);
+    color:#0a0a0f;
+  }
+  .card-1 .big{font-size:48px;font-weight:900;line-height:1;letter-spacing:-2px}
+  .card-1 .sub{font-weight:700;margin-top:6px;font-size:14px}
+  .card-2{
+    top:120px;right:0;width:280px;
+    animation-delay:-2s;
+  }
+  .card-2 .row{display:flex;align-items:center;gap:12px;margin-top:14px}
+  .card-2 .avatar{width:34px;height:34px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-weight:800;color:#0a0a0f;font-size:13px}
+  .card-2 .name{font-weight:600;font-size:14px}
+  .card-2 .role{font-size:12px;color:var(--muted)}
+  .card-3{
+    bottom:30px;left:60px;width:300px;
+    animation-delay:-4s;
+  }
+  .card-3 .ico{width:42px;height:42px;border-radius:12px;background:var(--grad-soft);display:grid;place-items:center;margin-bottom:14px;font-size:22px}
+  .card-3 .title{font-weight:700;font-size:16px;margin-bottom:6px}
+  .card-3 .desc{font-size:13px;color:var(--muted)}
+
+  /* MARQUEE */
+  .marquee{
+    border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+    padding:24px 0;overflow:hidden;background:var(--bg-2);
+  }
+  .marquee-track{display:flex;gap:60px;animation:scroll 30s linear infinite;white-space:nowrap}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .marquee-item{display:flex;align-items:center;gap:14px;font-weight:600;color:var(--muted);font-size:15px}
+  .marquee-item svg{color:var(--accent)}
+
+  /* SECTION COMMON */
+  section{padding:100px 0;position:relative}
+  .section-head{text-align:center;max-width:720px;margin:0 auto 64px}
+  .eyebrow{
+    display:inline-block;font-size:13px;font-weight:700;
+    color:var(--accent);text-transform:uppercase;letter-spacing:2px;
+    margin-bottom:14px;
+  }
+  .section-head h2{
+    font-size:clamp(32px,4vw,48px);
+    font-weight:800;letter-spacing:-1px;line-height:1.1;margin-bottom:16px;
+  }
+  .section-head p{color:var(--muted);font-size:17px}
+
+  /* SERVICES */
+  .services{background:var(--bg)}
+  .services-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+  }
+  .service{
+    position:relative;padding:32px;border-radius:var(--radius);
+    background:var(--surface);border:1px solid var(--border);
+    transition:transform .3s,border-color .3s,background .3s;
+    overflow:hidden;
+  }
+  .service::before{
+    content:'';position:absolute;inset:0;
+    background:var(--grad-soft);opacity:0;transition:opacity .3s;
+    z-index:0;
+  }
+  .service:hover{transform:translateY(-6px);border-color:rgba(255,91,31,.4)}
+  .service:hover::before{opacity:1}
+  .service > *{position:relative;z-index:1}
+  .service-icon{
+    width:56px;height:56px;border-radius:14px;
+    background:var(--grad);display:grid;place-items:center;
+    margin-bottom:20px;font-size:26px;
+    box-shadow:0 10px 24px rgba(255,91,31,.3);
+  }
+  .service h3{font-size:20px;font-weight:700;margin-bottom:10px;letter-spacing:-.3px}
+  .service p{color:var(--muted);font-size:14.5px}
+  .service-tag{
+    display:inline-block;font-size:11px;font-weight:700;
+    padding:4px 10px;border-radius:100px;
+    background:rgba(255,184,0,.15);color:#ffd066;
+    margin-top:16px;text-transform:uppercase;letter-spacing:1px;
+  }
+
+  /* USP / BIG FEATURE */
+  .usp{background:var(--bg-2);position:relative;overflow:hidden}
+  .usp::before{
+    content:'';position:absolute;top:-200px;right:-200px;
+    width:600px;height:600px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,91,31,.15),transparent 70%);
+  }
+  .usp-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;z-index:1}
+  .usp h2{font-size:clamp(32px,4vw,46px);font-weight:800;letter-spacing:-1px;line-height:1.1;margin-bottom:20px}
+  .usp h2 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .usp p.lead{font-size:17px;color:var(--muted);margin-bottom:32px}
+  .usp-list{display:flex;flex-direction:column;gap:18px}
+  .usp-item{display:flex;gap:16px;align-items:flex-start}
+  .usp-check{
+    flex-shrink:0;width:28px;height:28px;border-radius:50%;
+    background:var(--grad);display:grid;place-items:center;
+    color:#0a0a0f;font-weight:900;font-size:14px;
+  }
+  .usp-item-text strong{display:block;font-size:16px;margin-bottom:2px}
+  .usp-item-text span{color:var(--muted);font-size:14px}
+
+  .usp-visual{
+    position:relative;aspect-ratio:1/1;border-radius:var(--radius);
+    background:var(--surface);border:1px solid var(--border);
+    padding:40px;display:grid;place-items:center;overflow:hidden;
+  }
+  .usp-visual::before{
+    content:'';position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 30% 30%,rgba(255,91,31,.2),transparent 50%),
+      radial-gradient(circle at 70% 70%,rgba(255,184,0,.2),transparent 50%);
+  }
+  .usp-circle{
+    position:relative;width:280px;height:280px;border-radius:50%;
+    background:var(--grad);display:grid;place-items:center;
+    box-shadow:0 30px 80px rgba(255,91,31,.4);
+    animation:spin 20s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .usp-circle-inner{
+    width:220px;height:220px;border-radius:50%;
+    background:var(--surface);
+    display:grid;place-items:center;text-align:center;padding:30px;
+    animation:spin 20s linear infinite reverse;
+  }
+  .usp-circle-inner .big{font-size:48px;font-weight:900;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-2px}
+  .usp-circle-inner .lbl{font-size:13px;color:var(--muted);margin-top:8px;font-weight:600}
+
+  /* PROCESS */
+  .process{background:var(--bg)}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative}
+  .step{
+    padding:28px;border-radius:var(--radius);
+    background:var(--surface);border:1px solid var(--border);
+    position:relative;transition:transform .3s;
+  }
+  .step:hover{transform:translateY(-4px)}
+  .step-num{
+    font-size:48px;font-weight:900;line-height:1;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+    letter-spacing:-2px;margin-bottom:16px;
+  }
+  .step h4{font-size:17px;font-weight:700;margin-bottom:8px}
+  .step p{color:var(--muted);font-size:14px}
+
+  /* CONDITIONS */
+  .conditions{background:var(--bg-2)}
+  .cond-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .cond{
+    padding:32px;border-radius:var(--radius);
+    background:var(--surface);border:1px solid var(--border);
+    text-align:center;
+  }
+  .cond-ico{
+    width:64px;height:64px;border-radius:50%;
+    background:var(--grad-soft);
+    display:grid;place-items:center;margin:0 auto 18px;
+    font-size:28px;
+  }
+  .cond h4{font-size:18px;font-weight:700;margin-bottom:8px}
+  .cond p{color:var(--muted);font-size:14.5px}
+
+  /* CTA */
+  .cta{padding:100px 0}
+  .cta-box{
+    background:var(--grad);
+    border-radius:32px;
+    padding:64px 48px;text-align:center;
+    position:relative;overflow:hidden;
+    color:#0a0a0f;
+  }
+  .cta-box::before{
+    content:'';position:absolute;inset:0;
+    background-image:
+      radial-gradient(circle at 20% 20%,rgba(255,255,255,.2),transparent 40%),
+      radial-gradient(circle at 80% 80%,rgba(255,255,255,.15),transparent 40%);
+  }
+  .cta-box > *{position:relative;z-index:1}
+  .cta-box h2{font-size:clamp(30px,4vw,46px);font-weight:900;letter-spacing:-1px;line-height:1.1;margin-bottom:16px}
+  .cta-box p{font-size:18px;margin-bottom:36px;opacity:.8;max-width:560px;margin-left:auto;margin-right:auto}
+  .cta-buttons{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .btn-dark{
+    background:#0a0a0f;color:#fff;
+    padding:18px 32px;border-radius:12px;font-weight:700;
+    transition:transform .2s,box-shadow .2s;
+    display:inline-flex;align-items:center;gap:10px;
+  }
+  .btn-dark:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.4)}
+  .btn-outline-dark{
+    background:rgba(10,10,15,.1);color:#0a0a0f;
+    padding:18px 32px;border-radius:12px;font-weight:700;
+    border:2px solid #0a0a0f;
+    display:inline-flex;align-items:center;gap:10px;
+    transition:all .2s;
+  }
+  .btn-outline-dark:hover{background:#0a0a0f;color:#fff}
+
+  /* FOOTER */
+  footer{padding:60px 0 40px;border-top:1px solid var(--border);background:var(--bg-2)}
+  .foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
+  .foot-info{color:var(--muted);font-size:14px}
+  .foot-links{display:flex;gap:24px;font-size:14px;color:var(--muted)}
+  .foot-links a:hover{color:var(--text)}
+
+  /* RESPONSIVE */
+  @media(max-width:960px){
+    .nav-links{display:none}
+    .nav-cta{display:none}
+    .burger{display:flex}
+    .hero{padding:130px 0 60px}
+    .hero-inner{grid-template-columns:1fr;gap:40px}
+    .hero-visual{height:420px;order:-1}
+    .services-grid,.cond-grid{grid-template-columns:1fr}
+    .steps{grid-template-columns:repeat(2,1fr)}
+    .usp-inner{grid-template-columns:1fr;gap:40px}
+    .usp-visual{max-width:380px;margin:0 auto}
+    .cta-box{padding:48px 24px;border-radius:24px}
+    section{padding:70px 0}
+  }
+  @media(max-width:560px){
+    .steps{grid-template-columns:1fr}
+    .hero-stats{gap:24px}
+    .card-1{width:200px}
+    .card-2{width:240px}
+    .card-3{width:240px;left:30px}
+  }
+
+  /* REVEAL ANIMATION */
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
+  .reveal.in{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <nav class="nav">
+    <a href="#" class="logo">
+      <div class="logo-mark">P</div>
+      PromoPrint
+    </a>
+    <div class="nav-links">
+      <a href="#services">Услуги</a>
+      <a href="#usp">Типография</a>
+      <a href="#process">Как работаем</a>
+      <a href="#conditions">Условия</a>
+    </div>
+    <a href="#cta" class="nav-cta">Обсудить задачу</a>
+    <button class="burger" aria-label="Меню">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="container hero-inner">
+    <div>
+      <div class="badge"><span class="badge-dot"></span> Выводим людей уже завтра</div>
+      <h1>Приведём клиентов <br>в ваш бизнес с помощью <span class="grad">живой рекламы</span></h1>
+      <p class="lead">Профессиональные промо-услуги и собственная типография под одной крышей. Закроем любую маркетинговую задачу — от листовки до толпы у входа.</p>
+      <div class="hero-cta">
+        <a href="#cta" class="btn btn-primary">Получить расчёт
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="#services" class="btn btn-ghost">Что мы делаем</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">500+</div>
+          <div class="stat-label">Активных промоутеров</div>
+        </div>
+        <div>
+          <div class="stat-num">7 лет</div>
+          <div class="stat-label">На рынке</div>
+        </div>
+        <div>
+          <div class="stat-num">24ч</div>
+          <div class="stat-label">До старта акции</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="card-float card-1">
+        <div class="big">+312%</div>
+        <div class="sub">Рост трафика на точку за 2 недели</div>
+      </div>
+      <div class="card-float card-2">
+        <div style="font-weight:700;font-size:15px">Команда в работе</div>
+        <div style="color:var(--muted);font-size:13px;margin-top:4px">Сегодня выходят на смену</div>
+        <div class="row">
+          <div class="avatar">А</div>
+          <div>
+            <div class="name">Алина · Промоутер</div>
+            <div class="role">ТЦ «Галерея», 10:00–18:00</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="avatar" style="background:linear-gradient(135deg,#5b8def,#9b51e0)">М</div>
+          <div>
+            <div class="name">Максим · Зазывала</div>
+            <div class="role">Невский пр., мегафон</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-float card-3">
+        <div class="ico">🖨️</div>
+        <div class="title">Своя типография</div>
+        <div class="desc">Печать, доставка, раздача — один подрядчик, один счёт, одна ответственность.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <div class="marquee-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg> Раздача листовок</div>
+    <div class="marquee-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg> Ростовые куклы</div>
+    <div class="marquee-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg> Зазывалы с мегафоном</div>
+    <div class="marquee-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg> Лидогенерация</div>
+    <div class="marquee-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg> Замер трафика</div>
+    <div class="marquee-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg> Своя типография</div>
+    <div class="marquee-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg> Раздача листовок</div>
+    <div class="marquee-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg> Ростовые куклы</div>
+    <div class="marquee-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg> Зазывалы с мегафоном</div>
+    <div class="marquee-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg> Лидогенерация</div>
+    <div class="marquee-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg> Замер трафика</div>
+    <div class="marquee-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg> Своя типография</div>
+  </div>
+</div>
+
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Услуги</div>
+      <h2>Закроем любую <br>маркетинговую задачу</h2>
+      <p>Шесть направлений, которые решают конкретные бизнес-задачи: от первого касания с аудиторией до полной лидогенерации.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service reveal">
+        <div class="service-icon">📄</div>
+        <h3>Раздача листовок</h3>
+        <p>Улицы, ТЦ, метро, бизнес-центры. Промоутер под вашу ЦА, контроль геолокацией, фото- и видеоотчёт.</p>
+        <span class="service-tag">Самый частый запрос</span>
+      </div>
+      <div class="service reveal">
+        <div class="service-icon">📬</div>
+        <h3>Раскладка по адресам</h3>
+        <p>Под дворники авто, в почтовые ящики, в торговые точки. Покрытие районов с гарантией выполнения.</p>
+        <span class="service-tag">Точечный охват</span>
+      </div>
+      <div class="service reveal">
+        <div class="service-icon">📢</div>
+        <h3>Зазывалы с мегафонами</h3>
+        <p>Громкие, заметные, харизматичные. Привлекут внимание к открытию, акции или к самой точке.</p>
+        <span class="service-tag">Высокая конверсия</span>
+      </div>
+      <div class="service reveal">
+        <div class="service-icon">🎭</div>
+        <h3>Ростовые куклы</h3>
+        <p>Артисты с опытом — никакой статичной стойки. Создают шоу, фото-возможности и эмоции бренда.</p>
+        <span class="service-tag">Wow-эффект</span>
+      </div>
+      <div class="service reveal">
+        <div class="service-icon">🎯</div>
+        <h3>Лидогенерация</h3>
+        <p>Сбор контактов «в поле»: анкеты, опросы, регистрации в CRM. Тёплые лиды в день обращения.</p>
+        <span class="service-tag">Продажи</span>
+      </div>
+      <div class="service reveal">
+        <div class="service-icon">📊</div>
+        <h3>Замер трафика</h3>
+        <p>Подсчёт пешеходного потока перед открытием новой точки. Аналитика по часам, дням, направлениям.</p>
+        <span class="service-tag">Аналитика</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="usp" id="usp">
+  <div class="container usp-inner">
+    <div class="reveal">
+      <div class="eyebrow">Главное преимущество</div>
+      <h2>Своя <span class="grad">типография</span> — печать и раздача в одном месте</h2>
+      <p class="lead">Не нужно искать печатника, согласовывать макеты с одним подрядчиком и передавать тираж другому. Мы делаем всё — вы экономите деньги, нервы и неделю времени.</p>
+      <div class="usp-list">
+        <div class="usp-item">
+          <div class="usp-check">✓</div>
+          <div class="usp-item-text">
+            <strong>Один счёт вместо трёх</strong>
+            <span>Дизайн, печать, логистика, раздача — всё в одном договоре</span>
+          </div>
+        </div>
+        <div class="usp-item">
+          <div class="usp-check">✓</div>
+          <div class="usp-item-text">
+            <strong>Экономия до 25% бюджета</strong>
+            <span>Без посредников и наценок на каждом этапе</span>
+          </div>
+        </div>
+        <div class="usp-item">
+          <div class="usp-check">✓</div>
+          <div class="usp-item-text">
+            <strong>Срочный тираж за 24 часа</strong>
+            <span>Печатаем ночью — раздаём с утра</span>
+          </div>
+        </div>
+        <div class="usp-item">
+          <div class="usp-check">✓</div>
+          <div class="usp-item-text">
+            <strong>Полная ответственность</strong>
+            <span>Один подрядчик — один человек, с которого можно спросить</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="usp-visual reveal">
+      <div class="usp-circle">
+        <div class="usp-circle-inner">
+          <div>
+            <div class="big">−25%</div>
+            <div class="lbl">К стоимости <br>против сторонней печати</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="process" id="process">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Как мы работаем</div>
+      <h2>От заявки до людей на улице — <br>четыре шага</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <h4>Брифинг</h4>
+        <p>За 15 минут разбираемся в задаче, ЦА, географии и сроках.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <h4>Расчёт и макет</h4>
+        <p>Готовим смету и при необходимости — дизайн листовки в нашей типографии.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <h4>Подбор команды</h4>
+        <p>Промоутеры под вашу аудиторию: возраст, внешность, манера общения.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">04</div>
+        <h4>Старт и отчёт</h4>
+        <p>Выходим на точку, контролируем по GPS, ежедневный фото- и видеоотчёт.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="conditions" id="conditions">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Условия</div>
+      <h2>Работаем как удобно <br>именно вашему бизнесу</h2>
+    </div>
+    <div class="cond-grid">
+      <div class="cond reveal">
+        <div class="cond-ico">👥</div>
+        <h4>Любой возраст и пол</h4>
+        <p>Подбираем промоутеров строго под портрет вашей целевой аудитории.</p>
+      </div>
+      <div class="cond reveal">
+        <div class="cond-ico">📝</div>
+        <h4>По договору и без</h4>
+        <p>Юридическое лицо, ИП, самозанятый, физлицо — оформим под любую схему.</p>
+      </div>
+      <div class="cond reveal">
+        <div class="cond-ico">💳</div>
+        <h4>Любая форма оплаты</h4>
+        <p>Безнал с НДС и без, карта, наличные, СБП, рассрочка для крупных акций.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="cta">
+  <div class="container">
+    <div class="cta-box reveal">
+      <h2>Напишите задачу — <br>выведем людей уже завтра</h2>
+      <p>Бесплатная консультация. Подберём формат, рассчитаем смету и запустим акцию в течение 24 часов.</p>
+      <div class="cta-buttons">
+        <a href="tel:+78001234567" class="btn-dark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          +7 (800) 123-45-67
+        </a>
+        <a href="https://t.me/promoprint" class="btn-outline-dark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/></svg>
+          Написать в Telegram
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot">
+    <div class="foot-info">
+      © 2026 PromoPrint · Промо-услуги и собственная типография
+    </div>
+    <div class="foot-links">
+      <a href="#services">Услуги</a>
+      <a href="#usp">Типография</a>
+      <a href="#cta">Контакты</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Header shrink on scroll
+  const header = document.querySelector('.header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      header.style.background = 'rgba(10,10,15,.9)';
+    } else {
+      header.style.background = 'rgba(10,10,15,.7)';
+    }
+  });
+</script>
+
+</body>
+</html>
